@@ -1,0 +1,49 @@
+Settings	sector	\CZYZ.sct
+Settings	alias	\navdata\alias.txt
+Settings	airlines	\navdata\ICAO_Airlines.txt
+Settings	airports	\navdata\ICAO_Airports.txt
+Settings	aircraft	\navdata\ICAO_Aircraft.txt
+Settings	airportcoords	\navdata\icao.txt
+Settings	airways	\navdata\airway.txt
+Settings	SettingsfileSIL	\settings\Lists.txt
+Settings	SettingsfileSEL	\settings\Lists.txt
+Settings	SettingsfileDEP	\settings\Lists.txt
+Settings	SettingsfileARR	\settings\Lists.txt
+Settings	SettingsfileFP	\settings\Lists.txt
+Settings	SettingsfileCONFLICT	\settings\Lists.txt
+Settings	SettingsfilePILOTING	\settings\Piloting list configuration.txt
+Settings	SettingsfileORIGPLANE	\settings\Original Plane list configuration.txt
+Settings	SettingsfileSTUP	\settings\Startup list configuration.txt
+Settings	SettingsfileTAXIOUT	\settings\Taxi Out list configuration.txt
+Settings	SettingsfileTAKEOFF	\settings\Take-Off list configuration.txt
+Settings	SettingsfileADCS	\settings\ADC Sector list configuration.txt
+Settings	SettingsfileTAXIIN	\settings\Taxi In list configuration.txt
+Settings	SettingsfileSYMBOLOGY	\settings\CZYZ Symbology-Situ.txt
+Settings	SettingsfileVOICE	\settings\CZYZ LiveATC.txt
+Settings	SettingsfilePROFILE	\settings\CZYZ Login Profiles.txt
+Settings	SettingsfileTAGS	\settings\CZYZ Tag Definitions-Situ.txt
+Settings	SettingsfilePLUGINS	\settings\Plug-in settings.txt
+Settings	Settingsfile	\settings\General settings.txt
+Settings	SettingsfileSCREEN	\settings\Screen layout.txt
+Settings	SettingsfileVCCS	\settings\VCCS configuration.txt
+RecentFiles	Recent1	\asrfiles\CentreHI.asr
+RecentFiles	Recent2	\asrfiles\Arrival24.asr
+RecentFiles	Recent3	\asrfiles\Arrival06.asr
+RecentFiles	Recent4	\asrfiles\Arrival33.asr
+RecentFiles	Recent5	\asrfiles\Arrival15.asr
+RecentFiles	Recent6	\asrfiles\TorontoTower.asr
+RecentFiles	Recent7	\asrfiles\TorontoGround.asr
+RecentFiles	Recent8	\asrfiles\CityGround.asr
+LastSession	connecttype	0
+LastSession	callsign	TOR_CTR
+LastSession	facility	6
+LastSession	server	AUTOMATIC
+LastSession	tovatsim	1
+LastSession	range	600
+LastSession	proxyserver	localhost
+LastSession	simdatapublish	0
+LastSession	atis2	Toronto Centre
+LastSession	atis3	Charts and Info - www.torontofir.ca
+Plugins	Plugin0	\plugins\StatusUpdater.dll
+Plugins	Plugin1	\plugins\VATCANSitu.dll
+Plugins	Plugin1Display0	Standard ES radar screen

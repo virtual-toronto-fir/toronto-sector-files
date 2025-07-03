@@ -1,0 +1,93 @@
+name: Create release
+
+on:
+  push:
+    tags:
+      - "[0-9][0-9][0-9][0-9].*.*" # Trigger only for tags starting with 4-digit AIRAC numbers (e.g., 2506.0.0)
+
+permissions:
+  contents: write
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+
+    steps:
+          - name: Checkout code
+            uses: actions/checkout@v4
+
+          - name: Define file list
+            run: |
+              echo "asrfiles/" > file_list.txt
+              echo "DataFiles/" >> file_list.txt
+              echo "navdata/" >> file_list.txt
+              echo "plugins/" >> file_list.txt
+              echo "settings/" >> file_list.txt
+              echo "situWx/" >> file_list.txt
+              echo "CZYZ.sct" >> file_list.txt
+              echo "CZYZ.ese" >> file_list.txt
+              echo "CZYZ.prf" >> file_list.txt
+              echo "CZYZ-Easy.prf" >> file_list.txt
+              echo "ipaddr.txt" >> file_list.txt
+              echo "vATIS Profile - Toronto FIR.json" >> file_list.txt
+
+          - name: Zip CZYZ folder
+            run: |
+              zip -r CZYZ-${{ github.ref_name }}-full.zip -@ < file_list.txt
+              echo "ZIP file created: CZYZ-${{ github.ref_name }}-full.zip"
+
+          - name: Create GitHub Release
+            id: create_release
+            uses: ncipollo/release-action@v1
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            with:
+              artifacts: CZYZ-${{ github.ref_name }}-full.zip
+              artifactContentType: application/zip
+              generateReleaseNotes: true
+              draft: false
+              prerelease: false
+              artifactErrorsFailBuild: true
+
+          - name: Find Previous Tag
+            id: get_previous_tag
+            run: |
+              # Fetch all tags
+              git fetch --tags --force
+
+              # Get the previous tag with the closest date
+              previous_tag=$(git tag --sort=-creatordate | grep -v $(git describe --tags --exact-match HEAD) | head -n 1)
+              if [ -z "$previous_tag" ]; then
+                echo "No previous tag found. Defaulting to the first commit."
+                previous_tag=$(git rev-list --max-parents=0 HEAD)
+              fi
+              echo "Previous tag: $previous_tag"
+              echo "previous_tag=$previous_tag" >> $GITHUB_ENV
+              
+          - name: Find Changed Files
+            id: get_changed_files
+            run: |
+              # Find files changed since the previous release tag
+              > changed_files.txt
+              while IFS= read -r path; do
+                git diff --name-only ${{ env.previous_tag }} HEAD -- "$path" >> changed_files.txt
+              done < file_list.txt
+              echo -e "Changed files:\n"
+              cat changed_files.txt
+
+          - name: Create ZIP Archive (Changed Files)
+            run: |
+              if [ -s changed_files.txt ]; then
+                zip CZYZ-${{ github.ref_name }}-update.zip -@ < changed_files.txt
+                echo "ZIP file created: CZYZ-${{ github.ref_name }}-update.zip"
+              else
+                echo "No change, skipping update package."
+              fi
+
+          - name: Upload ZIP for Changed Files to Release
+            run: |
+              if [ -s changed_files.txt ]; then
+                gh release upload ${{ github.ref_name }} CZYZ-${{ github.ref_name }}-update.zip --clobber
+              fi
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
